@@ -14,26 +14,26 @@ CREATE TABLE player(
 
 CREATE TABLE participates_on(
   p_id INTEGER,
-  t_id INTEGER,
+  tour_id INTEGER,
   p_point INTEGER DEFAULT 0,
-  PRIMARY KEY (p_id, t_id),
+  PRIMARY KEY (p_id, tour_id),
   CONSTRAINT fk_player
     FOREIGN KEY(p_id) 
 	    REFERENCES player(p_id),
   CONSTRAINT fk_tournament
-    FOREIGN KEY(t_id) 
+    FOREIGN KEY(tour_id) 
 	    REFERENCES tournament(tour_id)
 );
 
 CREATE TABLE match(
   match_id SERIAL PRIMARY KEY,
-  t_id INTEGER NOT NULL,
+  tour_id INTEGER NOT NULL,
   p1_id INTEGER NOT NULL,
   p2_id INTEGER NOT NULL,
   score_p1 INTEGER,
   score_p2 INTEGER,
   CONSTRAINT fk_tournament
-    FOREIGN KEY(t_id) 
+    FOREIGN KEY(tour_id) 
 	    REFERENCES tournament(tour_id),
   CONSTRAINT fk_player1
     FOREIGN KEY (p1_id) 
@@ -43,11 +43,11 @@ CREATE TABLE match(
       REFERENCES player(p_id)
 );
 
--- INSERT DATAS
+-- INSERT DATAS EXAMPLE
 INSERT INTO tournament(tour_name) VALUES('eFCS Super League');
 INSERT INTO player(p_name) VALUES('Tanlee'), ('Gytzero'), ('Prawnpaste');
-INSERT INTO participates_on(p_id, t_id) VALUES(1, 1), (2, 1), (3, 1);
-INSERT INTO match(t_id, p1_id, p2_id) VALUES(1, 1, 2), (1, 1, 3), (1, 2, 3);
+INSERT INTO participates_on(p_id, tour_id) VALUES(1, 1), (2, 1), (3, 1);
+INSERT INTO match(tour_id, p1_id, p2_id) VALUES(1, 1, 2), (1, 1, 3), (1, 2, 3);
 
 
 -- CHEATSHEET:
