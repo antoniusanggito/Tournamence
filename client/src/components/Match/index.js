@@ -6,7 +6,7 @@ export default class Match extends Component {
   render() {
     return (
       <div>
-        Match
+        <h2>Match</h2>
         <ListMatches />
         <InputMatch />
       </div>

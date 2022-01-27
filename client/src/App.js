@@ -8,6 +8,7 @@ import './App.css';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 import Tournament from './components/Tournament';
+import TournamentDetail from './components/Tournament/Detail';
 import Player from './components/Player';
 import Match from './components/Match';
 
@@ -17,10 +18,11 @@ class App extends React.Component {
       <div className="App">
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="tournament" element={<Tournament />} />
-          <Route path="player" element={<Player />} />
-          <Route path="match" element={<Match />} />
+          <Route exact path="/" element={<Home />} />
+          <Route exact path="/tournament" element={<Tournament />} />
+          <Route path="/tournament/:id" element={<TournamentDetail />} />
+          <Route path="/player" element={<Player />} />
+          <Route path="/match" element={<Match />} />
         </Routes>
       </div>
     )

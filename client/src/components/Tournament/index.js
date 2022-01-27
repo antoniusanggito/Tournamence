@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import InputTournament from './InputTournament';
-import ListTournaments from './ListTournaments';
+import InputTournament from './Input';
+import ListTournaments from './List';
 
 export class Tournament extends Component {
   constructor(props) {
@@ -21,7 +21,7 @@ export class Tournament extends Component {
   render() {
     return (
       <div>
-        Tournament
+        <h2>Tournament</h2>
         <InputTournament addTournament={this.addTournament} />
         <ListTournaments tournaments={this.state.tournaments} setTournaments={this.setTournaments} />
       </div>

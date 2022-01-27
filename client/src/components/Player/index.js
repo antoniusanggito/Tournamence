@@ -5,7 +5,7 @@ export default class Match extends Component {
   render() {
     return (
       <div>
-        Player
+        <h2>Player</h2>
         <ListPlayers />
       </div>
     );

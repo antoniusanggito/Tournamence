@@ -2,6 +2,6 @@ import React, { Component } from 'react';
 
 export default class index extends Component {
   render() {
-    return <div>Welcome to Tournamence!</div>;
+    return <div><h1>Welcome to Tournamence!</h1></div>;
   }
 }
