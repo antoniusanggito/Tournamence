@@ -43,6 +43,20 @@ app.get("/tournament", async (req, res) => {
   }
 })
 
+// Get tournament by id
+app.get("/tournament/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const tournament = await pool.query(
+      "SELECT * FROM tournament WHERE tour_id = $1;", 
+      [id]
+    );
+    res.json(tournament.rows);
+  } catch (error) {
+    console.error(error.message);
+  }
+})
+
 // Create a tournament
 app.post("/tournament", async (req, res) => {
   try {
@@ -57,8 +71,8 @@ app.post("/tournament", async (req, res) => {
   }
 })
 
-// Enter a tournament
-app.post("/tournament-enter", async (req, res) => {
+// Join a tournament
+app.post("/join", async (req, res) => {
   try {
     const { p_id, tour_id } = req.body;
     const newParticipation = await pool.query(
@@ -66,6 +80,20 @@ app.post("/tournament-enter", async (req, res) => {
       [p_id, tour_id]
     )
     res.json(newParticipation.rows[0]);
+  } catch (error) {
+    console.error(error.message);
+  }
+})
+
+// Get all player in a tournament
+app.get("/tournament/player/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const players = await pool.query(
+      "SELECT p_id, p_name FROM tournament NATURAL JOIN participates_on NATURAL JOIN player WHERE tour_id = $1;", 
+      [id]
+    );
+    res.json(players.rows);
   } catch (error) {
     console.error(error.message);
   }
