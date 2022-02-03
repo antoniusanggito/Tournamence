@@ -7,14 +7,26 @@ function Detail() {
   const location = useLocation();
   const tournament = location.state;
   const [playerId, setPlayerId] = useState("");
+  const [allPlayers, setAllPlayers] = useState([]);
   const [tourPlayers, setTourPlayers] = useState([]);
   const [tourMatches, setTourMatches] = useState([]);
   const [forceUpdate, setforceUpdate] = useState(false);
 
   useEffect(() => {
+    getAllPlayers();
     getPlayers();
     getMatches();
   }, [forceUpdate]);
+
+  const getAllPlayers = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/player`);
+      const jsonData = await response.json();
+      setAllPlayers(jsonData);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
 
   const getPlayers = async () => {
     try {
@@ -31,7 +43,6 @@ function Detail() {
       const response = await fetch(`http://localhost:5000/tournament/${id}/match`);
       const jsonData = await response.json();
       setTourMatches(jsonData);
-      console.log(tourMatches);
     } catch (error) {
       console.error(error.message);
     }
@@ -55,21 +66,23 @@ function Detail() {
 
   return (
     <>
-      <h2>{tournament.tour_id} {tournament.tour_name}</h2>
+      <h2>{tournament.tour_id}. {tournament.tour_name}</h2>
+      <h3>Players</h3>
       {tourPlayers.map((player, key) => (
         <div key={key}>
           <p>{player.p_id} {player.p_name}</p>
         </div>
       ))}
       <form onSubmit={onSubmit}>
-        <input 
-          type="text" 
-          value={playerId} 
-          onChange={e => setPlayerId(e.target.value)} 
-        />
-        <button type="submit">Join</button>
+        <select name="players" onChange={e => setPlayerId(e.target.value)}>
+          <option value={null} selected disabled></option>
+          {allPlayers.map((player, key) => (
+            <option key={key} value={player.p_id}>{player.p_name}</option>
+          ))}
+        </select>
+        <button type="submit">Add</button>
       </form>
-      <h2>Matches</h2>
+      <h3>Matches</h3>
       {tourMatches.map((match, key) => (
         <div key={key}>
           <p>{match.p1_name} ({match.score_p1}) - ({match.score_p2}) {match.p2_name}</p>
