@@ -8,17 +8,30 @@ function Detail() {
   const tournament = location.state;
   const [playerId, setPlayerId] = useState("");
   const [tourPlayers, setTourPlayers] = useState([]);
+  const [tourMatches, setTourMatches] = useState([]);
   const [forceUpdate, setforceUpdate] = useState(false);
 
   useEffect(() => {
     getPlayers();
+    getMatches();
   }, [forceUpdate]);
 
   const getPlayers = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/tournament/player/${id}`);
+      const response = await fetch(`http://localhost:5000/tournament/${id}/player`);
       const jsonData = await response.json();
       setTourPlayers(jsonData);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
+  const getMatches = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/tournament/${id}/match`);
+      const jsonData = await response.json();
+      setTourMatches(jsonData);
+      console.log(tourMatches);
     } catch (error) {
       console.error(error.message);
     }
@@ -56,6 +69,12 @@ function Detail() {
         />
         <button type="submit">Join</button>
       </form>
+      <h2>Matches</h2>
+      {tourMatches.map((match, key) => (
+        <div key={key}>
+          <p>{match.p1_name} ({match.score_p1}) - ({match.score_p2}) {match.p2_name}</p>
+        </div>
+      ))}
     </>
   );
 }

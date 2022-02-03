@@ -85,8 +85,8 @@ app.post("/join", async (req, res) => {
   }
 })
 
-// Get all player in a tournament
-app.get("/tournament/player/:id", async (req, res) => {
+// Get all players in a tournament
+app.get("/tournament/:id/player", async (req, res) => {
   try {
     const { id } = req.params;
     const players = await pool.query(
@@ -118,6 +118,20 @@ app.get("/match", async (req, res) => {
   try {
     const allMatches = await pool.query("SELECT * FROM match;");
     res.json(allMatches.rows);
+  } catch (error) {
+    console.error(error.message);
+  }
+})
+
+// Get all matches in a tournament
+app.get("/tournament/:id/match", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const players = await pool.query(
+      "SELECT p1.p_name p1_name, p2.p_name p2_name, match.score_p1, match.score_p2 FROM tournament NATURAL JOIN match INNER JOIN player p1 ON p1.p_id = match.p1_id INNER JOIN player p2 ON p2.p_id = match.p2_id WHERE tour_id = $1;",
+      [id]
+    );
+    res.json(players.rows);
   } catch (error) {
     console.error(error.message);
   }
