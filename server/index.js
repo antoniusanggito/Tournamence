@@ -71,7 +71,7 @@ app.post("/tournament", async (req, res) => {
   }
 })
 
-// Join a tournament
+// Join a player to a tournament
 app.post("/join", async (req, res) => {
   try {
     const { p_id, tour_id } = req.body;
@@ -128,7 +128,7 @@ app.get("/tournament/:id/match", async (req, res) => {
   try {
     const { id } = req.params;
     const players = await pool.query(
-      "SELECT p1.p_name p1_name, p2.p_name p2_name, match.score_p1, match.score_p2 FROM tournament NATURAL JOIN match INNER JOIN player p1 ON p1.p_id = match.p1_id INNER JOIN player p2 ON p2.p_id = match.p2_id WHERE tour_id = $1;",
+      "SELECT p1.p_name p1_name, p2.p_name p2_name, match.score_p1, match.score_p2 FROM tournament NATURAL JOIN match INNER JOIN player p1 ON p1.p_id = match.p1_id INNER JOIN player p2 ON p2.p_id = match.p2_id WHERE tour_id = $1 ORDER BY match.match_id;",
       [id]
     );
     res.json(players.rows);
