@@ -33,8 +33,6 @@ function Detail() {
         headers: { "Content-type": "application/json"},
         body: JSON.stringify(body)
       });
-      const jsonData = await response.json();
-      // console.log(jsonData);
       setforceUpdate((forceUpdate) => !forceUpdate);
       setPlayerId("");
     } catch (error) {
